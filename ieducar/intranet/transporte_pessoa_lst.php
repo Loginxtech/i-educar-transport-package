@@ -94,6 +94,10 @@ return new class extends clsListagem {
         if ($obj_permissao->permissao_cadastra(21240, $this->pessoa_logada, 7, null, true)) {
             $this->acao = 'go("../module/TransporteEscolar/Pessoatransporte")';
             $this->nome_acao = 'Novo';
+
+            // Botão extra ao lado do "Novo": cadastro de alunos no transporte em lote.
+            $this->array_botao[] = 'Cadastrar em lote';
+            $this->array_botao_url[] = '../module/TransporteEscolar/AlunoTransporte';
         }
 
         $this->breadcrumb('Listagem de usuários de tranposrte', [
