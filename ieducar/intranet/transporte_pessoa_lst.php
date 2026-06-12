@@ -97,7 +97,7 @@ return new class extends clsListagem {
 
             // Botão extra ao lado do "Novo": cadastro de alunos no transporte em lote.
             $this->array_botao[] = 'Cadastrar em lote';
-            $this->array_botao_url[] = '../module/TransporteEscolar/AlunoTransporte';
+            $this->array_botao_url[] = '/transporte/aluno/cadastro-em-lote';
         }
 
         $this->breadcrumb('Listagem de usuários de tranposrte', [
