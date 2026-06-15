@@ -11,7 +11,15 @@ class TransportServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+
+            $this->publishes([
+                __DIR__ . '/../../ieducar/Assets' => public_path('vendor/legacy/TransporteEscolar/Assets'),
+            ], ['transport-assets']);
         }
+
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'transport');
 
         LegacyController::resolver(function ($uri) {
             if (in_array($uri, static::intranet())) {
