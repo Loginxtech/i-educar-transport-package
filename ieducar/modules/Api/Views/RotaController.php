@@ -26,6 +26,29 @@ class RotaController extends ApiCoreController
         return (is_numeric($value) || empty($value));
     }
 
+    protected function canGetRotas()
+    {
+        return $this->validatesPresenceOf('ano');
+    }
+
+    protected function getRotas()
+    {
+        if ($this->canGetRotas()) {
+            $ano = (int) $this->getRequest()->ano;
+
+            $sql = 'SELECT cod_rota_transporte_escolar AS id, descricao AS nome
+                      FROM modules.rota_transporte_escolar
+                     WHERE ano = $1
+                     ORDER BY descricao';
+
+            $rotas = $this->fetchPreparedQuery($sql, [$ano]);
+
+            $rotas = Portabilis_Array_Utils::setAsIdValue($rotas, 'id', 'nome');
+
+            return ['options' => $rotas];
+        }
+    }
+
     protected function createOrUpdateRota($id = null)
     {
         $rota = new clsModulesRotaTransporteEscolar();
@@ -168,6 +191,8 @@ class RotaController extends ApiCoreController
             $this->appendResponse($this->get());
         } elseif ($this->isRequestFor('get', 'rota-search')) {
             $this->appendResponse($this->search());
+        } elseif ($this->isRequestFor('get', 'rotas')) {
+            $this->appendResponse($this->getRotas());
         }
 
         // create
